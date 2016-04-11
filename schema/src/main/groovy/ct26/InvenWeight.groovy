@@ -1,83 +1,47 @@
 package ct26
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.l2resources.Tex
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class InvenWeight extends BaseUI {
+@FXBindable
+@DefaultIO
+@CompileStatic
+class InvenWeight extends DefaultProperty {
     String target
     int textureWidth
     int textureHeight
+    @Tex
     String textureStepLeft
+    @Tex
     String textureStepMid
+    @Tex
     String textureStepRight
+    @Tex
     String textureWarnLeft
+    @Tex
     String textureWarnMid
+    @Tex
     String textureWarnRight
+    @Tex
     String textureAddedLeft
+    @Tex
     String textureAddedMid
+    @Tex
     String textureAddedRight
+    @Tex
     String textureBackLeft
+    @Tex
     String textureBackMid
+    @Tex
     String textureBackRight
+    @Tex
     String gaugeText
     int fontWidth
     int fontHeight
 
-    @Override
-    InvenWeight read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            target = input.readString()
-            textureWidth = input.readInt()
-            textureHeight = input.readInt()
-            textureStepLeft = input.readString()
-            textureStepMid = input.readString()
-            textureStepRight = input.readString()
-            textureWarnLeft = input.readString()
-            textureWarnMid = input.readString()
-            textureWarnRight = input.readString()
-            textureAddedLeft = input.readString()
-            textureAddedMid = input.readString()
-            textureAddedRight = input.readString()
-            textureBackLeft = input.readString()
-            textureBackMid = input.readString()
-            textureBackRight = input.readString()
-            gaugeText = input.readString()
-            fontWidth = input.readInt()
-            fontHeight = input.readInt()
-        }
-
-        this
-    }
-
-    @Override
-    InvenWeight write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeString(target)
-            output.writeInt(textureWidth)
-            output.writeInt(textureHeight)
-            output.writeString(textureStepLeft)
-            output.writeString(textureStepMid)
-            output.writeString(textureStepRight)
-            output.writeString(textureWarnLeft)
-            output.writeString(textureWarnMid)
-            output.writeString(textureWarnRight)
-            output.writeString(textureAddedLeft)
-            output.writeString(textureAddedMid)
-            output.writeString(textureAddedRight)
-            output.writeString(textureBackLeft)
-            output.writeString(textureBackMid)
-            output.writeString(textureBackRight)
-            output.writeString(gaugeText)
-            output.writeInt(fontWidth)
-            output.writeInt(fontHeight)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated String getUnk100() { target }
     @Deprecated void setUnk100(String unk100) { this.target = unk100 }
 
@@ -131,4 +95,5 @@ class InvenWeight extends BaseUI {
 
     @Deprecated int getUnk117() { fontHeight }
     @Deprecated void setUnk117(int unk117) { this.fontHeight = unk117 }
+    // @formatter:on
 }

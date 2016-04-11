@@ -1,8 +1,11 @@
 package ct1
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
 
-class MinimapCtrl extends BaseUI {
+@DefaultIO
+@CompileStatic
+class MinimapCtrl extends DefaultProperty {
     boolean showTime
     boolean showTown
     boolean showGrid
@@ -10,38 +13,7 @@ class MinimapCtrl extends BaseUI {
     boolean showMyLocText
     boolean showSSQText
 
-    @Override
-    MinimapCtrl read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            showTime = input.readBoolean()
-            showTown = input.readBoolean()
-            showGrid = input.readBoolean()
-            showMyLocMark = input.readBoolean()
-            showMyLocText = input.readBoolean()
-            showSSQText = input.readBoolean()
-        }
-
-        this
-    }
-
-    @Override
-    MinimapCtrl write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeBoolean(showTime)
-            output.writeBoolean(showTown)
-            output.writeBoolean(showGrid)
-            output.writeBoolean(showMyLocMark)
-            output.writeBoolean(showMyLocText)
-            output.writeBoolean(showSSQText)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated boolean getUnk100() { showTime }
     @Deprecated void setUnk100(boolean unk100) { this.showTime = unk100 }
 
@@ -59,4 +31,5 @@ class MinimapCtrl extends BaseUI {
 
     @Deprecated boolean getUnk105() { showSSQText }
     @Deprecated void setUnk105(boolean unk105) { this.showSSQText = unk105 }
+    // @formatter:on
 }

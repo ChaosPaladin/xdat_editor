@@ -1,41 +1,20 @@
 package etoa3_
 
 import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class TextListBox extends BaseUI {
+@FXBindable
+@DefaultIO
+@CompileStatic
+class TextListBox extends DefaultProperty {
     int maxRow
     int showRow
     int lineGap
-    int isShowScroll
+    Boolean isShowScroll
 
-    @Override
-    TextListBox read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            maxRow = input.readInt()
-            showRow = input.readInt()
-            lineGap = input.readInt()
-            isShowScroll = input.readInt()
-        }
-
-        this
-    }
-
-    @Override
-    TextListBox write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeInt(maxRow)
-            output.writeInt(showRow)
-            output.writeInt(lineGap)
-            output.writeInt(isShowScroll)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated int getUnk100() { maxRow }
     @Deprecated void setUnk100(int unk100) { this.maxRow = unk100 }
 
@@ -45,6 +24,7 @@ class TextListBox extends BaseUI {
     @Deprecated int getUnk102() { lineGap }
     @Deprecated void setUnk102(int unk102) { this.lineGap = unk102 }
 
-    @Deprecated int getUnk103() { isShowScroll }
-    @Deprecated void setUnk103(int unk103) { this.isShowScroll = unk103 }
+    @Deprecated int getUnk103() { IOUtil.boolToInt(isShowScroll) }
+    @Deprecated void setUnk103(int unk103) { this.isShowScroll = IOUtil.intToBool(unk103) }
+    // @formatter:on
 }

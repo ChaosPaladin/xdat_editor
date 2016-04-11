@@ -1,4 +1,7 @@
 package ct0
 
-class Radar extends BaseUI {
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class Radar extends DefaultProperty {
 }

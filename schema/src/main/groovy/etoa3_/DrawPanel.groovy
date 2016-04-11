@@ -1,29 +1,17 @@
 package etoa3_
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class DrawPanel extends BaseUI {
-    int unk100
+@FXBindable
+@DefaultIO
+@CompileStatic
+class DrawPanel extends DefaultProperty {
+    int autoSize
 
-    @Override
-    BaseUI read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            unk100 = input.readInt()
-        }
-
-        this
-    }
-
-    @Override
-    BaseUI write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeInt(unk100)
-        }
-
-        this
-    }
+    // @formatter:off
+    @Deprecated int getUnk100() { autoSize }
+    @Deprecated void setUnk100(int unk100) { this.autoSize = unk100 }
+    // @formatter:on
 }

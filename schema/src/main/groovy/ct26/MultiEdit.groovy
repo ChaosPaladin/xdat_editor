@@ -1,32 +1,25 @@
 package ct26
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class MultiEdit extends BaseUI {
-    int unk100
-    int unk101
+@FXBindable
+@DefaultIO
+@CompileStatic
+class MultiEdit extends DefaultProperty {
+    int maxRow
+    int showRow
 
-    @Override
-    MultiEdit read(InputStream input) {
-        super.read(input)
+    @Deprecated
+    int getUnk100() { maxRow }
 
-        use(IOUtil) {
-            unk100 = input.readInt()
-            unk101 = input.readInt()
-        }
+    @Deprecated
+    void setUnk100(int unk100) { this.maxRow = unk100 }
 
-        this
-    }
+    @Deprecated
+    int getUnk101() { showRow }
 
-    @Override
-    MultiEdit write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeInt(unk100)
-            output.writeInt(unk101)
-        }
-
-        this
-    }
+    @Deprecated
+    void setUnk101(int unk101) { this.showRow = unk101 }
 }

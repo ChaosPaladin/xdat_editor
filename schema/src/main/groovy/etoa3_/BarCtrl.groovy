@@ -1,53 +1,30 @@
 package etoa3_
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.l2resources.Tex
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class BarCtrl extends BaseUI {
+@FXBindable
+@DefaultIO
+@CompileStatic
+class BarCtrl extends DefaultProperty {
+    @Tex
     String foreTexture = 'undefined'
+    @Tex
     String foreLeftTexture = 'undefined'
+    @Tex
     String foreRightTexture = 'undefined'
+    @Tex
     String backTexture = 'undefined'
+    @Tex
     String backLeftTexture = 'undefined'
+    @Tex
     String backRightTexture = 'undefined'
     int uSize
     int vSize
 
-    @Override
-    BarCtrl read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            foreTexture = input.readString()
-            foreLeftTexture = input.readString()
-            foreRightTexture = input.readString()
-            backTexture = input.readString()
-            backLeftTexture = input.readString()
-            backRightTexture = input.readString()
-            uSize = input.readInt()
-            vSize = input.readInt()
-        }
-
-        this
-    }
-
-    @Override
-    BarCtrl write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeString(foreTexture)
-            output.writeString(foreLeftTexture)
-            output.writeString(foreRightTexture)
-            output.writeString(backTexture)
-            output.writeString(backLeftTexture)
-            output.writeString(backRightTexture)
-            output.writeInt(uSize)
-            output.writeInt(vSize)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated String getTexCenter() { foreTexture }
     @Deprecated void setTexCenter(String texCenter) { this.foreTexture = texCenter }
 
@@ -71,4 +48,5 @@ class BarCtrl extends BaseUI {
 
     @Deprecated int getUnk107() { vSize }
     @Deprecated void setUnk107(int unk107) { this.vSize = unk107 }
+    // @formatter:on
 }

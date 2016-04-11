@@ -1,41 +1,22 @@
 package ct0
 
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.l2resources.Tex
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class BarCtrl extends BaseUI {
+@FXBindable
+@DefaultIO
+@CompileStatic
+class BarCtrl extends DefaultProperty {
+    @Tex
     String foreTexture = 'undefined'
+    @Tex
     String backTexture = 'undefined'
     int uSize
     int vSize
 
-    @Override
-    BarCtrl read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            foreTexture = input.readString()
-            backTexture = input.readString()
-            uSize = input.readInt()
-            vSize = input.readInt()
-        }
-
-        this
-    }
-
-    @Override
-    BarCtrl write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeString(foreTexture)
-            output.writeString(backTexture)
-            output.writeInt(uSize)
-            output.writeInt(vSize)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated String getTex() { foreTexture }
     @Deprecated void setTex(String tex) { this.foreTexture = tex }
 
@@ -47,4 +28,5 @@ class BarCtrl extends BaseUI {
 
     @Deprecated int getUnk107() { vSize }
     @Deprecated void setUnk107(int unk107) { this.vSize = unk107 }
+    // @formatter:on
 }

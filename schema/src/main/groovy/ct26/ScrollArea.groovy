@@ -2,14 +2,16 @@ package ct26
 
 import acmi.l2.clientmod.util.IOUtil
 import acmi.l2.clientmod.util.Type
+import groovyx.javafx.beans.FXBindable
 
-class ScrollArea extends BaseUI implements Iterable<BaseUI> {
+@FXBindable
+class ScrollArea extends DefaultProperty implements Iterable<DefaultProperty> {
     int areaHeight
-    @Type(BaseUI.class)
-    List<BaseUI> children = []
+    @Type(DefaultProperty.class)
+    List<DefaultProperty> children = []
 
     @Override
-    Iterator<BaseUI> iterator() {
+    Iterator<DefaultProperty> iterator() {
         children.iterator()
     }
 
@@ -19,9 +21,7 @@ class ScrollArea extends BaseUI implements Iterable<BaseUI> {
 
         use(IOUtil) {
             areaHeight = input.readInt()
-            int count = input.readInt()
-            for (int i = 0; i < count; i++)
-                children.add(input.readObject(ScrollArea.class.package.name, getClass().classLoader) as BaseUI)
+            children = input.readList(DefaultProperty)
         }
 
         this
@@ -34,13 +34,15 @@ class ScrollArea extends BaseUI implements Iterable<BaseUI> {
         use(IOUtil) {
             output.writeInt(areaHeight)
             output.writeInt(children.size())
-            for (BaseUI baseUI : children)
-                output.writeObject(baseUI)
+            for (DefaultProperty child : children)
+                output.writeUIEntity(child)
         }
 
         this
     }
 
+    // @formatter:off
     @Deprecated int getUnk100() { areaHeight }
     @Deprecated void setUnk100(int unk100) { this.areaHeight = unk100 }
+    // @formatter:on
 }

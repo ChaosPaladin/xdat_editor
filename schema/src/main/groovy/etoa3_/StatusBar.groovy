@@ -1,131 +1,79 @@
 package etoa3_
 
 import acmi.l2.clientmod.util.IOEntity
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.l2resources.Sysstr
+import acmi.l2.clientmod.l2resources.Tex
 import acmi.l2.clientmod.util.Type
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class StatusBar extends BaseUI {
+@FXBindable
+@DefaultIO
+class StatusBar extends DefaultProperty {
     String title
+    @Sysstr
     int titleIndex
     int barWidth
     int barHeight
+    @Tex
     String foreTex
+    @Tex
     String foreLeftTex
+    @Tex
     String foreRightTex
+    @Tex
     String backTex
+    @Tex
     String backLeftTex
+    @Tex
     String backRightTex
+    @Tex
     String regenLeftTex
+    @Tex
     String regenTex
+    @Tex
     String regenRightTex
+    @Tex
     String warnTex
+    @Tex
     String warnLeftTex
+    @Tex
     String warnRightTex
     String unit
     int drawPoint
+    @Tex
     String gaugeFontTextureName
     int gaugeFontSizeX
     int gaugeFontSizeY
-    @Type(StatusBarUnk.class)
-    List<StatusBarUnk> unk120 = []
+    @Type(ScaleMark.class)
+    List<ScaleMark> unk120 = []
 
-    static class StatusBarUnk implements IOEntity {
-        String unk1
-        int unk2
-        int unk3
-        int unk4
+    @FXBindable
+    @DefaultIO
+    static class ScaleMark implements IOEntity {
+        @Tex
+        String markTexture
+        int numberOfMarks
+        int markWidth
+        int markHeight
 
-        @Override
-        StatusBarUnk read(InputStream input) throws IOException {
-            use(IOUtil) {
-                unk1 = input.readString()
-                unk2 = input.readInt()
-                unk3 = input.readInt()
-                unk4 = input.readInt()
-            }
-            this
-        }
+        // @formatter:off
+        @Deprecated String getUnk1() { markTexture }
+        @Deprecated void setUnk1(String unk1) { this.markTexture = unk1 }
 
-        @Override
-        StatusBarUnk write(OutputStream output) throws IOException {
-            use(IOUtil) {
-                output.writeString(unk1)
-                output.writeInt(unk2)
-                output.writeInt(unk3)
-                output.writeInt(unk4)
-            }
-            this
-        }
+        @Deprecated int getUnk2() { numberOfMarks }
+        @Deprecated void setUnk2(int unk2) { this.numberOfMarks = unk2 }
+
+        @Deprecated int getUnk3() { markWidth }
+        @Deprecated void setUnk3(int unk3) { this.markWidth = unk3 }
+
+        @Deprecated int getUnk4() { markHeight }
+        @Deprecated void setUnk4(int unk4) { this.markHeight = unk4 }
+        // @formatter:on
     }
 
-    @Override
-    StatusBar read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            title = input.readString()
-            titleIndex = input.readInt()
-            barWidth = input.readInt()
-            barHeight = input.readInt()
-            foreTex = input.readString()
-            foreLeftTex = input.readString()
-            foreRightTex = input.readString()
-            backTex = input.readString()
-            backLeftTex = input.readString()
-            backRightTex = input.readString()
-            regenLeftTex = input.readString()
-            regenTex = input.readString()
-            regenRightTex = input.readString()
-            warnTex = input.readString()
-            warnLeftTex = input.readString()
-            warnRightTex = input.readString()
-            unit = input.readString();
-            drawPoint = input.readInt();
-            gaugeFontTextureName = input.readString()
-            gaugeFontSizeX = input.readInt()
-            gaugeFontSizeY = input.readInt()
-            int count = input.readInt();
-            for (int i = 0; i < count; i++)
-                unk120.add(new StatusBarUnk().read(input))
-        }
-
-        this
-    }
-
-    @Override
-    StatusBar write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeString(title)
-            output.writeInt(titleIndex)
-            output.writeInt(barWidth)
-            output.writeInt(barHeight)
-            output.writeString(foreTex)
-            output.writeString(foreLeftTex)
-            output.writeString(foreRightTex)
-            output.writeString(backTex)
-            output.writeString(backLeftTex)
-            output.writeString(backRightTex)
-            output.writeString(regenLeftTex)
-            output.writeString(regenTex)
-            output.writeString(regenRightTex)
-            output.writeString(warnTex)
-            output.writeString(warnLeftTex)
-            output.writeString(warnRightTex)
-            output.writeString(unit)
-            output.writeInt(drawPoint)
-            output.writeString(gaugeFontTextureName)
-            output.writeInt(gaugeFontSizeX)
-            output.writeInt(gaugeFontSizeY)
-            output.writeInt(unk120.size())
-            for (StatusBarUnk s : unk120)
-                s.write(output)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated String getUnk100() { title }
     @Deprecated void setUnk100(String unk100) { this.title = unk100 }
 
@@ -188,4 +136,5 @@ class StatusBar extends BaseUI {
 
     @Deprecated int getUnk119() { gaugeFontSizeY }
     @Deprecated void setUnk119(int unk119) { this.gaugeFontSizeY = unk119 }
+    // @formatter:on
 }

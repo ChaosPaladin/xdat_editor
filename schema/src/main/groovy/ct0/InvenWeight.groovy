@@ -1,4 +1,7 @@
 package ct0
 
-class InvenWeight extends BaseUI {
+import groovy.transform.CompileStatic
+
+@CompileStatic
+class InvenWeight extends DefaultProperty {
 }

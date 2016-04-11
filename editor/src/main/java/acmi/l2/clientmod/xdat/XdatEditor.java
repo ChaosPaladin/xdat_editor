@@ -33,15 +33,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.StringTokenizer;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -50,12 +51,12 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.prefs.Preferences;
 
 public class XdatEditor extends Application {
     private static final Logger log = Logger.getLogger(XdatEditor.class.getName());
 
-    private ResourceBundle interfaceResources = ResourceBundle.getBundle("acmi.l2.clientmod.xdat.interface");
+    private ResourceBundle interfaceResources = ResourceBundle.getBundle("acmi.l2.clientmod.xdat.interface", Locale.getDefault(), getClass().getClassLoader());
 
     private Stage stage;
 
@@ -120,7 +121,8 @@ public class XdatEditor extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
 
-        FXMLLoader loader = new FXMLLoader(XdatEditor.class.getResource("main.fxml"), interfaceResources);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"), interfaceResources);
+        loader.setClassLoader(getClass().getClassLoader());
         loader.setControllerFactory(param -> new Controller(XdatEditor.this));
         Parent root = loader.load();
         controller = loader.getController();
@@ -153,18 +155,11 @@ public class XdatEditor extends Application {
 
     private void loadSchema() {
         String versionsFilePath = "/versions.csv";
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(XdatEditor.class.getResourceAsStream(versionsFilePath)))) {
-            List<String> l = br.lines().collect(Collectors.toList());
-
-            for (String line : l) {
-                try {
-                    StringTokenizer tokenizer = new StringTokenizer(line, ";");
-                    String name = tokenizer.nextToken();
-                    String className = tokenizer.nextToken();
-                    controller.registerVersion(name, className);
-                } catch (Exception e) {
-                    log.log(Level.WARNING, line, e);
-                }
+        try (CSVParser parser = new CSVParser(new InputStreamReader(getClass().getResourceAsStream(versionsFilePath)), CSVFormat.DEFAULT)) {
+            for (CSVRecord record : parser.getRecords()) {
+                String name = record.get(0);
+                String className = record.get(1);
+                controller.registerVersion(name, className);
             }
         } catch (Exception e) {
             log.log(Level.WARNING, versionsFilePath + " read error", e);
@@ -198,7 +193,7 @@ public class XdatEditor extends Application {
         });
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static Preferences getPrefs() {
+        return Preferences.userRoot().node("xdat_editor");
     }
 }

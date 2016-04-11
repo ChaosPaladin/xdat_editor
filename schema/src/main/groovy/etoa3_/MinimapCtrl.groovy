@@ -1,101 +1,71 @@
 package etoa3_
 
 import acmi.l2.clientmod.util.IOEntity
-import acmi.l2.clientmod.util.IOUtil
+import acmi.l2.clientmod.l2resources.Tex
 import acmi.l2.clientmod.util.Type
+import acmi.l2.clientmod.util.defaultio.DefaultIO
+import groovy.transform.CompileStatic
+import groovyx.javafx.beans.FXBindable
 
-class MinimapCtrl extends BaseUI {
-    boolean showTime
-    boolean showTown
-    boolean showGrid
-    boolean showMyLocMark
-    boolean showMyLocText
-    boolean showSSQText
-    @Type(MinimapCtrlUnk.class)
-    List<MinimapCtrlUnk> unk106 = []
+@FXBindable
+@DefaultIO
+class MinimapCtrl extends DefaultProperty {
+    boolean showTime = true
+    boolean showTown = true
+    boolean showGrid = true
+    boolean showMyLocMark = true
+    boolean showMyLocText = true
+    boolean showSSQText = true
+    @Type(MiniMapCtrlIconType.class)
+    List<MiniMapCtrlIconType> miniMapCtrlIconType = []
 
-    static class MinimapCtrlUnk implements IOEntity {
-        int unk1
-        String unk2
-        String unk3
-        String unk4
-        int unk5
-        int unk6
-        int unk7
-        int unk8
-        int unk9
+    @FXBindable
+    @DefaultIO
+    static class MiniMapCtrlIconType implements IOEntity {
+        int typeName
+        @Tex
+        String normalTexName
+        @Tex
+        String pushedTexName
+        @Tex
+        String overTexName
+        int width
+        int height
+        int offsetX
+        int offsetY
+        int priority
 
-        @Override
-        MinimapCtrlUnk read(InputStream input) throws IOException {
-            use(IOUtil) {
-                unk1 = input.readInt()
-                unk2 = input.readString()
-                unk3 = input.readString()
-                unk4 = input.readString()
-                unk5 = input.readInt()
-                unk6 = input.readInt()
-                unk7 = input.readInt()
-                unk8 = input.readInt()
-                unk9 = input.readInt()
-            }
-            this
-        }
+        // @formatter:off
+        @Deprecated int getUnk1() { typeName }
+        @Deprecated void setUnk1(int unk1) { this.typeName = unk1 }
 
-        @Override
-        MinimapCtrlUnk write(OutputStream output) throws IOException {
-            use(IOUtil) {
-                output.writeInt(unk1)
-                output.writeString(unk2)
-                output.writeString(unk3)
-                output.writeString(unk4)
-                output.writeInt(unk5)
-                output.writeInt(unk6)
-                output.writeInt(unk7)
-                output.writeInt(unk8)
-                output.writeInt(unk9)
-            }
-            this
-        }
+        @Deprecated String getUnk2() { normalTexName }
+        @Deprecated void setUnk2(String unk2) { this.normalTexName = unk2 }
+
+        @Deprecated String getUnk3() { pushedTexName }
+        @Deprecated void setUnk3(String unk3) { this.pushedTexName = unk3 }
+
+        @Deprecated String getUnk4() { overTexName }
+        @Deprecated void setUnk4(String unk4) { this.overTexName = unk4 }
+
+        @Deprecated int getUnk5() { width }
+        @Deprecated void setUnk5(int unk5) { this.width = unk5 }
+
+        @Deprecated int getUnk6() { height }
+        @Deprecated void setUnk6(int unk6) { this.height = unk6 }
+
+        @Deprecated int getUnk7() { offsetX }
+        @Deprecated void setUnk7(int unk7) { this.offsetX = unk7 }
+
+        @Deprecated int getUnk8() { offsetY }
+        @Deprecated void setUnk8(int unk8) { this.offsetY = unk8 }
+
+        @Deprecated int getUnk9() { priority }
+        @Deprecated void setUnk9(int unk9) { this.priority = unk9 }
+        // @formatter:on
     }
 
-    @Override
-    MinimapCtrl read(InputStream input) {
-        super.read(input)
-
-        use(IOUtil) {
-            showTime = input.readBoolean()
-            showTown = input.readBoolean()
-            showGrid = input.readBoolean()
-            showMyLocMark = input.readBoolean()
-            showMyLocText = input.readBoolean()
-            showSSQText = input.readBoolean()
-            int count = input.readInt()
-            for (int i = 0; i < count; i++)
-                unk106.add(new MinimapCtrlUnk().read(input))
-        }
-
-        this
-    }
-
-    @Override
-    MinimapCtrl write(OutputStream output) {
-        super.write(output)
-
-        use(IOUtil) {
-            output.writeBoolean(showTime)
-            output.writeBoolean(showTown)
-            output.writeBoolean(showGrid)
-            output.writeBoolean(showMyLocMark)
-            output.writeBoolean(showMyLocText)
-            output.writeBoolean(showSSQText)
-            output.writeInt(unk106.size())
-            for (MinimapCtrlUnk m : unk106)
-                m.write(output)
-        }
-
-        this
-    }
-
+    // @formatter:off
     @Deprecated boolean getUnk100() { showTime }
     @Deprecated void setUnk100(boolean unk100) { this.showTime = unk100 }
 
@@ -113,4 +83,8 @@ class MinimapCtrl extends BaseUI {
 
     @Deprecated boolean getUnk105() { showSSQText }
     @Deprecated void setUnk105(boolean unk105) { this.showSSQText = unk105 }
+
+    @Deprecated List<MiniMapCtrlIconType> getUnk106() { miniMapCtrlIconType }
+    @Deprecated void setUnk106(List<MiniMapCtrlIconType> unk106) { this.miniMapCtrlIconType = unk106 }
+    // @formatter:on
 }
